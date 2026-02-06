@@ -52,6 +52,11 @@ jobs:
           sync_readme: true
           sync_tag: false
 
+      - name: Set version in balena.yml
+        run: |
+          # Insert version after the first line (name field)
+          sed -i '1a version: "${{ steps.version.outputs.version }}"' balena.yml
+
       - name: Deploy to Balena
         id: deploy
         uses: balena-io/deploy-to-balena-action@master
