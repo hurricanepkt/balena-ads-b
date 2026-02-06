@@ -1,9 +1,9 @@
 
 ![balena ADS-B Flight Tracker](https://raw.githubusercontent.com/ketilmo/balena-ads-b/master/docs/images/header.svg)
 
-**ADS-B Flight Tracker running on balena with support for FlightAware, Flightradar24, Plane Finder, OpenSky Network, AirNav Radar, ADSB Exchange, Wingbits, adsb.fi, ADSB.lol, ADS-B One, airplanes.live, Planespotters.net, TheAirTraffic, AvDelphi, HP Radar, RadarPlane, Fly Italy ADSB and plane.watch.**
+**ADS-B Flight Tracker running on balena with support for FlightAware, Flightradar24, Plane Finder, OpenSky Network, AirNav Radar, ADSB Exchange, Wingbits, adsb.fi, ADSB.lol, ADS-B One, airplanes.live, Planespotters.net, TheAirTraffic, AvDelphi, HP Radar, Fly Italy ADSB and plane.watch.**
 
-Contribute to the flight tracking community! Feed your local [ADS-B data](https://mode-s.org/1090mhz/content/ads-b/1-basics.html) from an [RTL-SDR](https://www.rtl-sdr.com/) USB dongle (or various other radio types) and a supported device (see below) running balenaOS to the tracking services [FlightAware](https://flightaware.com/), [Flightradar24](https://www.flightradar24.com/), [Plane Finder](https://planefinder.net/), [OpenSky Network](https://opensky-network.org/), [AirNav Radar](https://www.airnavradar.com/), [ADSB Exchange](https://adsbexchange.com), [Wingbits](https://wingbits.com), [adsb.fi](https://adsb.fi/), [ADSB.lol](https://adsb.lol/), [ADS-B One](https://adsb.one), [airplanes.live](https://airplanes.live/), [Planespotters.net](https://www.planespotters.net/), [TheAirTraffic](https://theairtraffic.com/), [AvDelphi](https://www.avdelphi.com/), [HP Radar](https://hpradar.com/), [RadarPlane](https://radarplane.com/), [Fly Italy ADSB](https://flyitalyadsb.com/) and [plane.watch](https://plane.watch/). In return, you can receive complimentary premium accounts (or cryptocurrency tokens) worth several hundred dollars annually!
+Contribute to the flight tracking community! Feed your local [ADS-B data](https://mode-s.org/1090mhz/content/ads-b/1-basics.html) from an [RTL-SDR](https://www.rtl-sdr.com/) USB dongle (or various other radio types) and a supported device (see below) running balenaOS to the tracking services [FlightAware](https://flightaware.com/), [Flightradar24](https://www.flightradar24.com/), [Plane Finder](https://planefinder.net/), [OpenSky Network](https://opensky-network.org/), [AirNav Radar](https://www.airnavradar.com/), [ADSB Exchange](https://adsbexchange.com), [Wingbits](https://wingbits.com), [adsb.fi](https://adsb.fi/), [ADSB.lol](https://adsb.lol/), [ADS-B One](https://adsb.one), [airplanes.live](https://airplanes.live/), [Planespotters.net](https://www.planespotters.net/), [TheAirTraffic](https://theairtraffic.com/), [AvDelphi](https://www.avdelphi.com/), [HP Radar](https://hpradar.com/), [Fly Italy ADSB](https://flyitalyadsb.com/) and [plane.watch](https://plane.watch/). In return, you can receive complimentary premium accounts (or cryptocurrency tokens) worth several hundred dollars annually!
 
 # Stay in the loop
 
@@ -29,8 +29,7 @@ Contribute to the flight tracking community! Feed your local [ADS-B data](https:
 |                                                                                                                        | Device                          |
 |------------------------------------------------------------------------------------------------------------------------|---------------------------------|
 | <img alt="Intel NUC" height="24px" src="https://docs.balena.io/img/device/intel-nuc.svg"/>                             | Intel NUC                       |
-| <img alt="Nvidia Jetson Nano SD-CARD" height="24px" src="https://docs.balena.io/img/device/jetson-nano.svg"/>          | Nvidia Jetson Nano SD-CARD      |
-| <img alt="Orange Pi Zero" height="24px" src="https://docs.balena.io/img/device/orange-pi-zero.svg"/>                   | Orange Pi Zero                  |
+| <img alt="Nvidia Jetson Nano SD-CARD" height="24px" src="https://docs.balena.io/img/device/jetson-nano.svg"/>          | NVIDIA Jetson Nano (SD Card)    |
 | <img alt="Raspberry Pi 3 Model B+" height="24px" src="https://docs.balena.io/img/device/raspberrypi3.svg"/>            | Raspberry Pi 3 Model B+         |
 | <img alt="Raspberry Pi 3 (using 64bit OS)" height="24px" src="https://docs.balena.io/img/device/raspberrypi3-64.svg"/> | Raspberry Pi 3 (using 64bit OS) |
 | <img alt="Raspberry Pi 4 (using 64bit OS)" height="24px" src="https://docs.balena.io/img/device/raspberrypi4-64.svg"/> | Raspberry Pi 4 (using 64bit OS) |
@@ -334,8 +333,10 @@ If you have not previously set up a AirNav Radar receiver that you want to reuse
 7. Next, wait a minute or two for the service to restart and head over to ADSB Exchange's 
 [Feeder Status](https://www.adsbexchange.com/myip/) page from a PC on the same network as the feeder. Verify that your feeder is shown as registered and that ADSB Exchange is receiving your feed and MLAT data. You can also verify your feeder's performance at the [ADSB Exchange Feeder Map](https://map.adsbexchange.com/mlat-map/) by searching for your site name.
 
+If you want to turn on debug mode, you can add a variable named `ADSB_EXCHANGE_DEBUG` with the following values: `n` for network, `P` for CPR or `S` for speed check.
+
 # Enable ADSB Exchange clones
-This project supports a number of ADSB Exchange clones that arose after the sale of ADSB Exchange. Currently there is support for [adsb.fi](https://adsb.fi/), [ADSB.lol](https://adsb.lol/), [ADS-B One](https://adsb.one/), [airplanes.live](https://airplanes.live/), [Planespotters.net](https://www.planespotters.net/), [TheAirTraffic](https://theairtraffic.com/), [AvDelphi](https://www.avdelphi.com/), [HP Radar](https://hpradar.com/), [RadarPlane](https://radarplane.com/) and [Fly Italy ADSB](https://flyitalyadsb.com/). If you would like any new services adding, please create a PR adding the new service or if you do not know how then please [open an issue](https://github.com/ketilmo/balena-ads-b/issues/new) with your request.
+This project supports a number of ADSB Exchange clones that arose after the sale of ADSB Exchange. Currently there is support for [adsb.fi](https://adsb.fi/), [ADSB.lol](https://adsb.lol/), [ADS-B One](https://adsb.one/), [airplanes.live](https://airplanes.live/), [Planespotters.net](https://www.planespotters.net/), [TheAirTraffic](https://theairtraffic.com/), [AvDelphi](https://www.avdelphi.com/), [HP Radar](https://hpradar.com/), and [Fly Italy ADSB](https://flyitalyadsb.com/). If you would like any new services adding, please create a PR adding the new service or if you do not know how then please [open an issue](https://github.com/ketilmo/balena-ads-b/issues/new) with your request.
 
 For these services, you currently do not need any login or API credentials so there is no need to make an account with them (although some of them do offer this) and no credentials to add in balenaCloud. However, you do have to selectively enable each service (or you can enable all of them, or all but ADSB Exchange).
 
@@ -357,7 +358,6 @@ To enable a single service, you would need to add a *Device Variable* with one o
 - `THE_AIR_TRAFFIC_ENABLE=true`
 - `AV_DELPHI_ENABLE=true`
 - `HPRADAR_ENABLE=true`
-- `RADARPLANE_ENABLE=true`
 - `FLY_ITALY_ADSB_ENABLE=true`
 
 Lastly, these services all require a UUID to be passed to identify devices in their system. If you have set an `ADSB_EXCHANGE_UUID` the same UUID will be used for all services. If you do not have ADSB Exchange enabled and the `ADSB_EXCHANGE_UUID` variable set, the system will automatically generate one for you. However, if you would like, you can also set a UUID manually using the *Device Variable* with name `UUID` and with a UUID as a value (e.g. 2ddf6698-ea34-4c39-bbce-a8c3ddaf9bbd). You can use an [online UUID generator](https://www.uuidgenerator.net/) to generate one should you want to.
