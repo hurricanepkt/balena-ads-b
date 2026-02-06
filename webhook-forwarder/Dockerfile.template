@@ -1,0 +1,12 @@
+FROM balenalib/%%BALENA_ARCH%%-debian:bookworm
+LABEL maintainer="https://github.com/ketilmo"
+
+RUN install_packages curl jq ca-certificates tini
+
+WORKDIR /usr/src/app
+
+COPY start.sh ./
+
+RUN chmod +x ./start.sh
+
+ENTRYPOINT ["/usr/bin/tini", "--", "/usr/src/app/start.sh"]

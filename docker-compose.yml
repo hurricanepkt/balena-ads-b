@@ -235,6 +235,17 @@ services:
       - '31003'
     labels:
       io.balena.features.supervisor-api: '1'
+  webhook-forwarder:
+    depends_on:
+      - dump1090-fa
+    build: ./webhook-forwarder
+    image: webhook-forwarder
+    restart: unless-stopped
+    environment:
+      - WEBHOOK_URL=https://webhook.site/adsb
+      - POLL_INTERVAL=10
+      - SOURCE_NAME=dump1090-fa
+      - DUMP1090_URL=http://dump1090-fa:8080/data/aircraft.json
   wingbits:
     depends_on:
       - dump1090-fa
