@@ -242,7 +242,7 @@ services:
     image: webhook-forwarder
     restart: unless-stopped
     environment:
-      - WEBHOOK_URL=https://webhook.site/adsb
+      - WEBHOOK_URL=hhttps://n8n.mkg-hz.com/webhook/61609b8a-2412-49d1-9724-2d1d7a583bb9
       - POLL_INTERVAL=10
       - SOURCE_NAME=dump1090-fa
       - DUMP1090_URL=http://dump1090-fa:8080/data/aircraft.json
