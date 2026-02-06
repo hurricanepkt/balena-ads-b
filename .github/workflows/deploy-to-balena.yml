@@ -2,9 +2,15 @@ name: "Deploy to Balena"
 
 on:
   workflow_dispatch:
+    inputs:
+      upstream_sha:
+        description: "Upstream commit SHA that triggered the deploy (from fork sync)"
+        required: false
+        default: ""
   push:
     branches:
       - master
+
 jobs:
   build:
     name: "Deploy-to-Balena"
@@ -12,18 +18,71 @@ jobs:
     steps:
       - name: Checkout main branch
         uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Generate version tag
+        id: version
+        run: |
+          DATE_TAG=$(date -u +"%Y.%m.%d")
+          EXISTING=$(git tag -l "${DATE_TAG}*" | wc -l)
+          if [ "$EXISTING" -eq 0 ]; then
+            VERSION="${DATE_TAG}"
+          else
+            VERSION="${DATE_TAG}.$((EXISTING + 1))"
+          fi
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "Generated version: ${VERSION}"
+
+      - name: Build release note
+        id: note
+        run: |
+          COMMIT_SHA=$(git rev-parse --short HEAD)
+          UPSTREAM_SHA="${{ github.event.inputs.upstream_sha }}"
+          if [ -n "$UPSTREAM_SHA" ]; then
+            NOTE="Synced from upstream at ${UPSTREAM_SHA}. Local commit: ${COMMIT_SHA}."
+          else
+            NOTE="Deployed from commit ${COMMIT_SHA}."
+          fi
+          echo "note=${NOTE}" >> "$GITHUB_OUTPUT"
 
       - name: Update balena.yml
         uses: balena-io-experimental/balena.yml-action@main
         with:
-          # Synchronise the GitHub README with the Balena Hub README
           sync_readme: true
-          # If pushing a tag to deploy, use the same tag as the version number to display on Balena Hub
           sync_tag: false
 
       - name: Deploy to Balena
+        id: deploy
         uses: balena-io/deploy-to-balena-action@master
         with:
           balena_token: ${{ secrets.BALENA_API_KEY }}
           fleet: ${{ secrets.BALENA_APP }}
           multi_dockerignore: true
+          create_tag: true
+          note: ${{ steps.note.outputs.note }}
+
+      - name: Tag release with version
+        if: steps.deploy.outputs.release_id != ''
+        env:
+          BALENA_TOKEN: ${{ secrets.BALENA_API_KEY }}
+        run: |
+          curl -sf -X POST \
+            "https://api.balena-cloud.com/v6/release_tag" \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Bearer ${BALENA_TOKEN}" \
+            --data "{
+              \"release\": ${{ steps.deploy.outputs.release_id }},
+              \"tag_key\": \"version\",
+              \"value\": \"${{ steps.version.outputs.version }}\"
+            }"
+          echo "Tagged release ${{ steps.deploy.outputs.release_id }} with version ${{ steps.version.outputs.version }}"
+
+      - name: Create git tag
+        if: steps.deploy.outputs.release_id != ''
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git tag -a "${{ steps.version.outputs.version }}" \
+            -m "Balena release ${{ steps.deploy.outputs.release_id }}: ${{ steps.note.outputs.note }}"
+          git push origin "${{ steps.version.outputs.version }}"
